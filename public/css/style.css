@@ -1,0 +1,13 @@
+html , body{
+    /* font-family: 'Raleway', sans-serif; */
+    /* font-family: 'Bellota Text', cursive; */
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.container-centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
