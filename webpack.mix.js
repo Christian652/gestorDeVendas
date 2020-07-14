@@ -14,7 +14,10 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
 .styles('resources/views/layouts/css/dashboard.css', 'public/css/dashboard.css')
 .styles('resources/views/layouts/css/style.css', 'public/css/style.css')
+.styles('resources/views/layouts/css/site.css', 'public/css/site.css')
+
 .sass('resources/views/layouts/scss/bootstrap.scss', 'public/css/bootstrap.css')
+
 .scripts('resources/views/layouts/js/dashboard.js', 'public/js/dashboard.js')
 .scripts('node_modules/bootstrap/dist/js/bootstrap.js', 'public/js/bootstrap.js')
 .scripts('node_modules/jquery/dist/jquery.js', 'public/js/jquery.js')

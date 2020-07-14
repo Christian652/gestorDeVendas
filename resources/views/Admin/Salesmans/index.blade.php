@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <table class="table text-center table-bordered table-hover table-striped">
+                <table class="table text-center table-bordered table-hover table-responsive table-striped">
                     <thead>
                         <th>Nome</th>
                         <th>Email</th>

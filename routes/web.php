@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get("/" , function () {
-    return redirect()->route('entrar');
+Route::name('site.')->group(function () {
+
+    Route::get("/" , "SiteController@index")->name('index');
+
 });
 
 Route::get('/Entrar', function () {
-    return view('welcome');
+    return view('login');
 })->name("entrar");
 
 Route::namespace('Admin')->prefix('Administrador')->name('admin.')->middleware(['can:acesso-administrador', 'auth'])->group(function(){  

@@ -12,13 +12,15 @@
   </head>
   <body class="bg-light">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
 
         <a class="sidebar-toggle text-light mr-3">
             <span class="navbar-toggler-icon"></span>
         </a>
 
-        <a class="navbar-brand" href="{{route('dashboard')}}">{{auth()->user()->roles->first()->nome}}</a>
+        <a class="navbar-brand" href="{{route('dashboard')}}">
+          {{auth()->user()->roles->first()->nome}}
+        </a>
 
         <form action="{{route('logout')}}" method="post" class="ml-auto">
             @csrf
@@ -32,7 +34,8 @@
           <nav class="sidebar">
               <ul class="list-unstyled">
                   <li class="p-3 text-center text-white">
-                    Usuario:
+                    <img src="{{ asset('img/logo.png') }}" style="width: 80%;">
+                    <hr class="bg-light">
                     {{explode(' ', auth()->user()->name)[0]}}
                   </li>
                   
