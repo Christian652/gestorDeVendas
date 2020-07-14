@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Sale;
 use App\User;
-use Illuminate\Http\Request;
 
 class SalesmansController extends Controller
 {
@@ -36,7 +35,7 @@ class SalesmansController extends Controller
      */
     public function show(User $user)
     {
-        $sales = Sale::where('salesman_id', $user->id)->get();
+        $sales = Sale::where('salesman_id', $user->id)->paginate(4);
         $username = explode(' ', $user->name)[0];
         
         return view('Admin.Salesmans.show', compact("sales", 'user', 'username'));

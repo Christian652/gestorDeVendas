@@ -32,7 +32,7 @@ class UsersController extends Controller
     public function create()
     {
         $roles = Role::all();
-
+        
         return view("Admin.User.create", compact("roles"));      
     }
 
@@ -55,7 +55,8 @@ class UsersController extends Controller
         $role = $data['role'];
 
         $user->roles()->attach($role);
-
+        
+        flash('Usuário Cadastrado Com Sucesso')->success();
         return redirect()->route('admin.users.index');
     }
 
@@ -84,7 +85,7 @@ class UsersController extends Controller
     {
         $password = $user->password;
         
-        if ($request->password == "" || $request->password == " ") {
+        if ($request->password !== "" && $request->password !== " " && $request->password !== null) {
             $password = Hash::make($request->password);
         }
         
@@ -97,6 +98,8 @@ class UsersController extends Controller
         $role = $request->role;
 
         $user->roles()->sync($role);
+        
+        flash('Edição Bem Sucedida')->success();
 
         return redirect()->route('admin.users.index');
     }
@@ -110,7 +113,8 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
+        
+        flash('Usuario Deletado Com Sucesso!')->success();
         return redirect()->route('admin.users.index');
     }
 }

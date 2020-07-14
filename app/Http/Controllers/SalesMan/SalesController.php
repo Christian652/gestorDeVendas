@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SalesMan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaleRequest;
 use App\Sale;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class SalesController extends Controller
      */
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+        $sales = Sale::where('salesman_id', $id)->orderBy('id', 'desc')->paginate(6);
+        return view("Salesman.Sales.index", compact("sales"));
     }
 
     /**
@@ -25,7 +28,7 @@ class SalesController extends Controller
      */
     public function create()
     {
-        //
+        return view('Salesman.Sales.create');
     }
 
     /**
@@ -34,20 +37,40 @@ class SalesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaleRequest $request)
     {
-        //
+        if ($request->fidelidade == 'true') {
+            $fidelidade = true;
+        } else {
+            $fidelidade = false;
+        }
+
+        Sale::create([
+            'name' => $request->name,
+            'cpf' => $request->cpf,
+            'rg' => $request->rg,
+            'cell1' => $request->cell1,
+            'cell2' => $request->cell2,
+            'email' => $request->email,
+            'birthday' => $request->birthday,
+            'district' => $request->district,
+            'address' => $request->address,
+            'cep' => $request->cep,
+            'referencepoint' => $request->referencepoint,
+            'salesman_id' => auth()->user()->id,
+            'fidelidade' => $fidelidade,
+            'endday' => $request->endday,
+            'installationdate' => $request->installationdate,
+            'plan' => $request->plan
+        ]);
+
+        flash('Venda Registrada Com Sucesso!')->success();
+        return redirect()->route('salesman.sales.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Sale  $sale
-     * @return \Illuminate\Http\Response
-     */
     public function show(Sale $sale)
     {
-        //
+        return view('Salesman.Sales.show', ['sale' => $sale]);
     }
 
     /**
@@ -58,7 +81,7 @@ class SalesController extends Controller
      */
     public function edit(Sale $sale)
     {
-        //
+        return view('Salesman.Sales.edit', compact('sale'));
     }
 
     /**
@@ -68,19 +91,34 @@ class SalesController extends Controller
      * @param  \App\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sale $sale)
+    public function update(SaleRequest $request, Sale $sale)
     {
-        //
-    }
+        if ($request->fidelidade == 'true') {
+            $fidelidade = true;
+        } else {
+            $fidelidade = false;
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Sale  $sale
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Sale $sale)
-    {
-        //
+        $sale->update([
+            'name' => $request->name,
+            'cpf' => $request->cpf,
+            'rg' => $request->rg,
+            'cell1' => $request->cell1,
+            'cell2' => $request->cell2,
+            'email' => $request->email,
+            'birthday' => $request->birthday,
+            'district' => $request->district,
+            'address' => $request->address,
+            'cep' => $request->cep,
+            'referencepoint' => $request->referencepoint,
+            'salesman_id' => auth()->user()->id,
+            'fidelidade' => $fidelidade,
+            'endday' => $request->endday,
+            'installationdate' => $request->installationdate,
+            'plan' => $request->plan
+        ]);
+
+        flash('Venda Registrada Com Sucesso!')->success();
+        return redirect()->route('salesman.sales.index');
     }
 }

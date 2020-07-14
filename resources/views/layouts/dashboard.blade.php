@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-br">
   <head>
-    <title>Adm Vendas</title>
+    <title>123 Internet</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{asset('css/bootstrap.css')}}">
@@ -82,61 +82,40 @@
                       </ul>
                     </li>
 
-                    <li>
-                      <a href="#clientes" data-toggle="collapse">
-                        Clientes
-                      </a>
-
-                      <ul class="collapse pl-0" id="clientes">
-                          <li>
-                            <a href="{{ route('admin.clients.create') }}">
-                              Novo
-                              <div class="material-icons float-left">add</div>
-                            </a>
-                          </li>
-
-                          <li>
-                            <a href="{{ route('admin.clients.index') }}">
-                              Listar Todos
-                              <div class="material-icons float-left">list</div>
-                            </a>
-                          </li>
-                      </ul>
-                    </li>
-                    
                     <li><a href="{{route('admin.sales.index')}}">Vendas</a></li>
                   @endcan
 
                   @can('acesso-vendedor')
-                    <li><a href="">Link Vendedor</a></li>
-                    <!-- <li>
-                      <a href="#especialidades" data-toggle="collapse">
-                        Especialidades
+                    <li><a href="{{ route('salesman.profile.index') }}">Minha Conta</a></li>
+                    
+                    <li>
+                      <a href="#vendas" data-toggle="collapse">
+                        Vendas
                       </a>
 
-                      <ul class="collapse pl-0" id="especialidades">
+                      <ul class="collapse pl-0" id="vendas">
                           <li>
-                            <a href="">
+                            <a href="{{ route('salesman.sales.create') }}">
                               Nova
                               <div class="material-icons float-left">add</div>
                             </a>
                           </li>
 
                           <li>
-                            <a href="">
-                              Listar Todas
+                            <a href="{{ route('salesman.sales.index') }}">
+                              Minhas
                               <div class="material-icons float-left">list</div>
                             </a>
                           </li>
                       </ul>
-                    </li>  -->
+                    </li> 
                   @endcan
               </ul>
           </nav>
   
           <div class="content p-1 w-100">
               <div class="list-group-item">
-                  
+                @include('flash::message')
                 @yield('content')
                   
               </div>

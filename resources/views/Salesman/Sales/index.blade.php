@@ -3,15 +3,25 @@
 @section('content')
     @if(!count($sales))
     <div class="alert alert-info text-center" role="alert">
-        <strong>Não Foi Econtrado Nenhuma Venda Registrada</strong>
+        <strong>Não Foi Econtrado Nenhuma Venda Registrada Por {{ explode(' ', auth()->user()->name)[0] }}</strong>
     </div>
     @else
-    <h1 class="font-weight-bold text-center mb-4">Vendas Registradas</h1>
+    <h1 class="font-weight-bold text-center mb-4">Minhas Vendas</h1>
+    <p class="lead text-center">No Momento Foram Registradas {{ auth()->user()->sales->count() }} Vendas Por Você!</p>
     @endif
-    <div class="row justify-content-center ">
-        {{ $sales }}
+    <hr class="m-1">
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="btn-group">
+                <a href="{{ route('salesman.sales.create') }}" class="btn btn-success">Registrar Venda</a>
+            </div>
+        </div>
     </div>
-    <hr>
+    <hr class="m-1">
+    
+    <div class="row justify-content-center">
+            {{ $sales }}
+        </div>
     <div class="container">
         <div class="row">
             @foreach($sales as $sale)
@@ -19,15 +29,11 @@
                 <div class="card border-info">
                     <div class="card-header bg-white border-info">
                         <div class="d-flex">
-                            <form action="{{ route('admin.sales.destroy', ['sale' => $sale->id]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger rounded-circle py-2 px-2">
-                                    <div class="material-icons float-left">delete</div>
-                                </button>
-                            </form>
+                            <a href="{{ route('salesman.sales.edit', ['sale' => $sale->id]) }}" class="btn btn-success rounded-circle">
+                                <div class="material-icons float-left">edit</div>
+                            </a>
 
-                            <a href="{{ route('admin.sales.show', ['sale' => $sale->id]) }}" class="btn btn-sm py-2 ml-2 btn-info ">
+                            <a href="{{ route('salesman.sales.show', ['sale' => $sale->id]) }}" class="btn btn-sm py-2 ml-2 btn-info ">
                                 <div class="material-icons float-left">info</div>
                                 <span class="float-right">
                                 Mais Informações
@@ -36,7 +42,6 @@
                         </div>
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item">Vendedor: {{ $sale->salesman->name }}</li>
                         <li class="list-group-item">Nome: {{ $sale->name }}</li>
                         <li class="list-group-item">Contato1: {{ $sale->cell1 }}</li>
                         <li class="list-group-item">Bairro: {{ $sale->district }}</li>

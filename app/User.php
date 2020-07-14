@@ -60,4 +60,9 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'salesman_id', 'id');
+    }
 }

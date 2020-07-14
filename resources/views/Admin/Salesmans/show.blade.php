@@ -1,42 +1,54 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    @if(!count($sales))
-    <div class="alert alert-info text-center" role="alert">
-        <strong>Não Foi Econtrado Nenhuma Venda Registrada Na Plataforma Por {{ $username }}</strong>
-    </div>
-    @endif
-    <h1 class="font-weight-bold text-center">Vendas Feitas Por {{ $username }}</h1>
+    <h1 class="font-weight-bold text-center">Informações Sobre {{ $username }}</h1>
     <hr class="m-1">
     <div class="container">
         <div class="row justify-content-end">
-            
             <div class="btn-group">
-                <a href="{{ route('admin.users.create') }}" class="btn btn-success">Cadastrar Vendedor</a>
+                <a href="{{ route('admin.users.create') }}" class="btn btn-success">Cadastrar Usuário</a>
             </div>
         </div>
     </div>
     <hr class="m-1 mb-3">
     <div class="container">
+        <div class="row justify-content-center">
+            {{ $sales }}
+        </div>
+    </div>
+    <div class="container">
         <div class="row">
-            @foreach($sales as $sale)
-            <div class="col-md-6 col-sm-12 mb-4">
-                <div class="card border-info">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h3>Vendas Feitas Por {{ $user->name }}</h3>
+                    </div>
                     <div class="card-body">
-                        <p class="lead"><strong class="font-weight-bold">Cliente</strong> <br> Christian Ferreira Costa De Castro</p>
-                        <hr class="m-0">
-                        <p class="lead"><strong class="font-weight-bold">Sobre</strong> <br> Vendi Duas Passagens Para Miami Com Ida no dia 24 de março e voltar em 28 de março</p>
-                        <hr class="m-0">
-                        <div class="d-flex justify-content-between">
-                            <p class="lead"><strong class="font-weight-bold">Ganho</strong> <br> 4000 BRL</p>
-                        
-                            <p class="lead"><strong class="font-weight-bold">Data</strong> <br> 20/04/2020</p>
-                        </div>
+                        @foreach($sales as $sale)
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item bg-dark text-white">Vendedor: {{ $sale->salesman->name }}</li>
+                            <li class="list-group-item">
+                                <form action="{{ route('admin.sales.destroy', ['sale' => $sale->id]) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Deletar</button>
+                                </form>
+                            </li>
+                            <li class="list-group-item">Nome: {{ $sale->name }}</li>
+                            <li class="list-group-item">Contato1: {{ $sale->cell1 }}</li>
+                            <li class="list-group-item">Bairro: {{ $sale->district }}</li>
+                            <li class="list-group-item">Endereço: {{ $sale->address }}</li>
+                            <li class="list-group-item">Ponto De Referencia: {{ $sale->referencepoint }}</li>
+                            <li class="list-group-item">Dia De Pagamento: {{ $sale->endday }}</li>
+                        </ul>
+                        @endforeach
+                    </div>
+
+                    <div class="row justify-content-center">
+                        {{ $sales }}
                     </div>
                 </div>
             </div>
-            @endforeach
         </div>
     </div>
-
 @endsection

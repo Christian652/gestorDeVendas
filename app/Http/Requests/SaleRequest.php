@@ -24,23 +24,30 @@ class SaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => ['required', 'integer'],
-            'salesman_id' => ['required', 'integer'],
-            'description' => ['required', 'string'],
-            'totalPrice' => ['required', 'float'],
-            'saledDate' => ['required', 'date'],
+            'name' => "required|string|max:200",
+            'cpf' => "required|string|max:14|min:14",
+            'rg' => "required|string|max:14|min:14",
+            'email' => "required|string|max:200",
+            'cell1' => "required|string|max:13",
+            'cell2' => "required|string|max:13",
+            'address' => "required|string|max:200",
+            'district' => "required|string|max:200",
+            'birthday' => "required|string|max:10",
+            'cep' => "required|string|max:10",
+            'referencepoint' => "required|string|max:200",
+            'endday' => "required|string|max:2",
+            'installationdate' => "required|string|max:100",
+            'plan' => "required|string|max:100",
+            'fidelidade' => "required"
         ];
     }
-
     
     public function messages()
     {
         return [
             'required' => 'Preencha Esse Campo!',
-            'string' => 'Esse Campo Só Aceita Texto',
-            'date' => 'Esse Campo Deve Receber Uma Data!',
-            'max' => 'Esse Campo Aceita no Maximo :max Caracteres!',
-            'min' => 'Esse Campo Aceita Apenas no Minimo :min Caracteres'
+            'string' => 'Esse Campo Só Aceita Texto!',
+            'max' => 'Esse Campo Aceita No Maximo :max Caracteres!'
         ];
     }
 }
