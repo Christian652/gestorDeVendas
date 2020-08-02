@@ -1,41 +1,37 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="font-weight-bold text-center">Administradores Registrados</h1>
+    <h1 class="font-weight-bold text-center">Status De Venda Disponiveis</h1>
     <hr class="m-1">
     <div class="container">
         <div class="row justify-content-end">
-            
             <div class="btn-group">
-                <a href="{{ route('admin.users.create') }}" class="btn btn-success">Cadastrar Administrador</a>
+                <a href="{{ route('admin.salestatus.create') }}" class="btn btn-success">Adicionar Novo Status</a>
             </div>
         </div>
     </div>
-    <hr class="m-1 mb-3">
+    <hr class="m-1">
+
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <table class="table text-center table-bordered table-hover table-striped">
                     <thead>
                         <th>Nome</th>
-                        <th class="d-none d-lg-table-cell">Email</th>
                         <th>Ações</th>
                     </thead>
                 
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($saleStatus as $status)
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td class="d-none d-lg-table-cell">{{ $user->email }}</td>
+                            <td>{{ $status->name }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('admin.salestatus.edit', ['saleStatus'=>$status->id]) }}" class="btn btn-sm btn-success">
                                         Editar
                                     </a>
-
-                                    <button data-target="#delete" data-toggle="modal" data-id="{{ $user->id }}" class="btn btn-danger btn-sm px-1 py-1">
-                                        <div class="material-icons float-left">delete</div>                                      
-                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete" data-id="{{ $status->id }}">Deletar</button>
                                 </div>
                             </td>
                         </tr>
@@ -46,8 +42,8 @@
             </div>
         </div>
     </div>
-<!-- Modal -->
-<div class="modal fade modal-danger" id="delete" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+ <!-- Modal -->
+    <div class="modal fade modal-danger" id="delete" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +79,7 @@
             let id = button.attr('data-id')    
             
             let form = document.getElementById('formdelete');
-            let action = "{{ route('admin.users.destroy', ['user' => 1]) }}";
+            let action = "{{ route('admin.salestatus.destroy', ['saleStatus' => 1])}}";
             
             let url = action.slice(0, action.length - 1);
 

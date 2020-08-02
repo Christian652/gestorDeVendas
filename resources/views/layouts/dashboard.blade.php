@@ -39,17 +39,23 @@
                     {{explode(' ', auth()->user()->name)[0]}}
                   </li>
                   
-                    <li><a href="{{route('dashboard')}}">Inicio</a></li>
+                    <li>
+                      <a href="{{route('dashboard')}}">
+                        Inicio
+                        <div class="material-icons float-right">home</div>  
+                      </a>
+                    </li>
                   @can('acesso-administrador')
                     <li>
-                      <a href="#usuarios" data-toggle="collapse">
-                        Usuários
+                      <a href="#admin" data-toggle="collapse">
+                        Administradores
+                        <div class="material-icons float-right">admin_panel_settings</div>
                       </a>
 
-                      <ul class="collapse pl-0" id="usuarios">
+                      <ul class="collapse pl-0" id="admin">
                           <li>
                             <a href="{{ route('admin.users.create') }}">
-                              Novo
+                              Novo 
                               <div class="material-icons float-left">add</div>
                             </a>
                           </li>
@@ -66,11 +72,13 @@
                     <li>
                       <a href="#vendedores" data-toggle="collapse">
                         Vendedores
+
+                        <div class="material-icons float-right">shopping_cart</div>
                       </a>
 
                       <ul class="collapse pl-0" id="vendedores">
                           <li>
-                            <a href="{{ route('admin.users.create') }}">
+                            <a href="{{ route('admin.salesmans.create') }}">
                               Novo
                               <div class="material-icons float-left">add</div>
                             </a>
@@ -85,15 +93,87 @@
                       </ul>
                     </li>
 
-                    <li><a href="{{route('admin.sales.index')}}">Vendas</a></li>
+                    <li>
+                      <a href="#salestatus" data-toggle="collapse">
+                        Status De Venda
+                        <div class="material-icons float-right">category</div>
+                      </a>
+
+                      <ul class="collapse pl-0" id="salestatus">
+                          <li>
+                            <a href="{{ route('admin.salestatus.create') }}">
+                              Novo
+                              <div class="material-icons float-left">add</div>
+                            </a>
+                          </li>
+
+                          <li>
+                            <a href="{{ route('admin.salestatus.index') }}">
+                              Listar Todos
+                              <div class="material-icons float-left">list</div>
+                            </a>
+                          </li>
+                      </ul>
+                    </li>
+                    
+                    <li>
+                      <a href="#references" data-toggle="collapse">
+                        Planos
+                        <div class="material-icons float-right">wifi</div>
+                      </a>
+
+                      <ul class="collapse pl-0" id="references">
+                        <li>
+                           <a href="{{ route('admin.planreferences.create') }}">
+                            Novo 
+                            <div class="material-icons float-left">add</div>
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="{{ route('admin.planreferences.index') }}">
+                              Listar Todos
+                            <div class="material-icons float-left">list</div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li>
+                      <a href="#site" data-toggle="collapse">
+                        Site Config
+                        <div class="material-icons float-right">app_settings_alt</div>
+                      </a>
+
+                      <ul class="collapse pl-0" id="site">
+                        <li>
+                          <a href="#">
+                              Planos
+                            <div class="material-icons float-left">list</div>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="{{route('admin.sales.index')}}">
+                        Vendas
+                        <div class="material-icons float-right">store</div>
+                      </a>
+                    </li>
                   @endcan
 
                   @can('acesso-vendedor')
-                    <li><a href="{{ route('salesman.profile.index') }}">Minha Conta</a></li>
+                    <li>
+                      <a href="{{ route('salesman.profile.index') }}">
+                        Minha Conta
+                        <div class="material-icons float-right">account_box</div>
+                      </a>
+                    </li>
                     
                     <li>
                       <a href="#vendas" data-toggle="collapse">
                         Vendas
+                        <div class="material-icons float-right">shopping_cart</div>
                       </a>
 
                       <ul class="collapse pl-0" id="vendas">

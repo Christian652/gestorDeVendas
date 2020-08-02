@@ -7,7 +7,6 @@ use App\Http\Requests\EditUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Role;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -19,8 +18,16 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
- 
+        $rawusers = User::all();
+
+        $users = [];
+
+        foreach ($rawusers as $user) {
+            if (!$user->salesman) {
+                array_push($users, $user);
+            }
+        }
+        
         return view('Admin.User.index', compact("users"));
     }
 
@@ -31,9 +38,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        
-        return view("Admin.User.create", compact("roles"));      
+        return view("Admin.User.create");      
     }
 
     /**
@@ -52,11 +57,11 @@ class UsersController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $role = $data['role'];
-
-        $user->roles()->attach($role);
+        $role = Role::where('nome', 'Administrador')->first();
         
-        flash('Usuário Cadastrado Com Sucesso')->success();
+        $user->roles()->attach($role->id);
+        
+        flash('Administrador Cadastrado Com Sucesso')->success();
         return redirect()->route('admin.users.index');
     }
 
@@ -68,10 +73,9 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
         $username = explode(' ', $user->name)[0];
 
-        return view('Admin.User.edit', compact("user", "roles", "username"));
+        return view('Admin.User.edit', compact("user", "username"));
     }
 
     /**
@@ -94,10 +98,6 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => $password,
         ]);
-
-        $role = $request->role;
-
-        $user->roles()->sync($role);
         
         flash('Edição Bem Sucedida')->success();
 
@@ -112,6 +112,18 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->id == auth()->user()->id) {
+            flash('Você Não Pode Deletar a Si Mesmo')->warning();
+            
+            return redirect()->route('admin.users.index');
+        }
+
+        if ($user->roles()->first()->nome == "Vendedor") {
+            flash('Para deletar um vendedor você precisa estar na seção de vendedores para remover as informações dele por completo')->info();
+            
+            return redirect()->route('admin.salesmans.index');
+        }
+        
         $user->delete();
         
         flash('Usuario Deletado Com Sucesso!')->success();

@@ -14,7 +14,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $sales = Sale::paginate(6);
+        $sales = Sale::orderBy('id', 'DESC')->paginate(6);
         return view("Admin.Sales.index", compact("sales"));
     }
 
@@ -29,6 +29,6 @@ class SalesController extends Controller
 
         flash('Venda Deletada Com Sucesso!')->success();
 
-        return redirect()->back();
+        return redirect()->route('admin.sales.index');
     }
 }

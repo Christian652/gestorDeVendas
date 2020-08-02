@@ -61,8 +61,8 @@ class User extends Authenticatable
         return false;
     }
 
-    public function sales()
+    public function salesman()
     {
-        return $this->hasMany(Sale::class, 'salesman_id', 'id');
+        return $this->hasOne(Salesman::class);
     }
 }

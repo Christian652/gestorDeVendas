@@ -68,7 +68,7 @@
                         <div class="d-flex flex-column justify-content-around align-items-center">
                             <div style="font-size: 6em;" class="material-icons float-left">description</div>
                             <div class="w-100 d-flex justify-content-center align-items-center">
-                                <span class="font-weight-bold" style="font-size: 3em;">{{ auth()->user()->sales->count()}}</span>
+                                <span class="font-weight-bold" style="font-size: 3em;"> {{ auth()->user()->salesman->sales()->count()}}</span>
                             </div>
                             <a href="{{ route('salesman.sales.index') }}" class="btn btn-block btn-light mt-3">Relatorio De Vendas</a>
                         </div>

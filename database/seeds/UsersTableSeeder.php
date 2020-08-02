@@ -15,7 +15,6 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $adminRole = Role::where('nome','Administrador')->first();
-        $vendedorRole = Role::where('nome', 'Vendedor')->first();
 
         $admin = User::create([
             'name'=>'Christian',
@@ -23,13 +22,6 @@ class UsersTableSeeder extends Seeder
             'password'=>Hash::make('administrador')
         ]);
 
-        $vendedor = User::create([
-            'name'=>'Christian',
-            'email'=>'vendedor@gmail.com',
-            'password'=>Hash::make('vendedor')
-        ]); 
-
         $admin->roles()->attach($adminRole);
-        $vendedor->roles()->attach($vendedorRole);
     }
 }

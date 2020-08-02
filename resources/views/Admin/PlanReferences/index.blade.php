@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="font-weight-bold text-center">Administradores Registrados</h1>
+    <h1 class="font-weight-bold text-center">Referencias De Planos</h1>
     <hr class="m-1">
     <div class="container">
         <div class="row justify-content-end">
             
             <div class="btn-group">
-                <a href="{{ route('admin.users.create') }}" class="btn btn-success">Cadastrar Administrador</a>
+                <a href="{{ route('admin.planreferences.create') }}" class="btn btn-success">Cadastrar Plano de Referencia</a>
             </div>
         </div>
     </div>
@@ -18,24 +18,23 @@
                 <table class="table text-center table-bordered table-hover table-striped">
                     <thead>
                         <th>Nome</th>
-                        <th class="d-none d-lg-table-cell">Email</th>
+                        <th class="d-none d-lg-table-cell">Preço de Instalação</th>
                         <th>Ações</th>
                     </thead>
                 
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($planReferences as $plan)
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td class="d-none d-lg-table-cell">{{ $user->email }}</td>
+                            <td>{{ $plan->name }}</td>
+                            <td class="d-none d-lg-table-cell">{{ $plan->installationprice }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ route('admin.users.edit', ['user'=>$user->id]) }}" class="btn btn-sm btn-success">
+                                    <a href="{{ route('admin.planreferences.edit', ['planReference'=>$plan->id]) }}" class="btn btn-sm btn-success">
                                         Editar
                                     </a>
-
-                                    <button data-target="#delete" data-toggle="modal" data-id="{{ $user->id }}" class="btn btn-danger btn-sm px-1 py-1">
-                                        <div class="material-icons float-left">delete</div>                                      
-                                    </button>
+                                    
+                                    <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete" data-id="{{ $plan->id }}">Deletar</button>
+                                    
                                 </div>
                             </td>
                         </tr>
@@ -46,8 +45,8 @@
             </div>
         </div>
     </div>
-<!-- Modal -->
-<div class="modal fade modal-danger" id="delete" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+
+    <div class="modal fade modal-danger" id="delete" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +82,7 @@
             let id = button.attr('data-id')    
             
             let form = document.getElementById('formdelete');
-            let action = "{{ route('admin.users.destroy', ['user' => 1]) }}";
+            let action = "{{ route('admin.planreferences.destroy', ['planReference' => 1])}}";
             
             let url = action.slice(0, action.length - 1);
 

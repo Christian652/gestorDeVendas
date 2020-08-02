@@ -6,8 +6,8 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card border-info">
-                    <div class="card-header bg-white border-info">
+                <div class="card {{ $sale->colorClass['border'] }}">
+                    <div class="card-header bg-white {{ $sale->colorClass['border'] }}">
                         <div class="d-flex">
                             <a href="{{ route('salesman.sales.edit', ['sale' => $sale->id]) }}" class="btn btn-success rounded-circle">
                                 <div class="material-icons float-left">edit</div>
@@ -22,6 +22,10 @@
                         </div>
                     </div>
                     <ul class="list-group">
+                        @if($sale->cancelation_reason)
+                        <li class="list-group-item">Cacelado por: {{ $sale->cancelation_reason }}</li>
+                        @endif
+                        <li class="list-group-item {{ $sale->colorClass['bg'] }}">Status: {{ $sale->salestatus->name }}</li>
                         <li class="list-group-item">Nome: {{ $sale->name }}</li>
                         <li class="list-group-item">Nascimento: {{ $sale->birthday }}</li>
                         <li class="list-group-item">Cpf: {{ $sale->cpf }}</li>
@@ -34,8 +38,7 @@
                         <li class="list-group-item">Ponto De Referencia: {{ $sale->referencepoint }}</li>
                         <li class="list-group-item">Dia De Pagamento: {{ $sale->endday }}</li>
                         <li class="list-group-item">Data Da Instalação: {{ $sale->installationdate }}</li>
-                        <li class="list-group-item">Plano: {{ $sale->plan }}</li>
-                        <li class="list-group-item">Fidelidade: @if($sale->fidelidade) Sim @else Não @endif</li>
+                        <li class="list-group-item">Plano: {{ $sale->planreference->name }}</li>
                     </ul>
                 </div>
             </div>

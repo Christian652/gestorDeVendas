@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <h1 class="font-weight-bold text-center">Cadastrar Usuário</h1>
+    <h1 class="font-weight-bold text-center">Cadastrar Administrador</h1>
     <hr class="m-1">
     <div class="container">
         <div class="row justify-content-end">
@@ -27,22 +27,6 @@
                 @enderror
             </div>
 
-            <div class="form-group col-md-5 col-sm-12 mb-3 p-0">
-                <label>Permissão</label>
-
-                <select name="role" id="" class="form-control">
-                    @foreach($roles as $role)
-                    <option value="{{ $role->id }}">{{ $role->nome }}</option>
-                    @endforeach
-                </select>
-
-                @error('name')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
-            
             <div class="form-group form-row">
                 <div class="form-group col-md-6">
                     <label>Email</label>

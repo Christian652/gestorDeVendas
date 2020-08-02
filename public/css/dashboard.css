@@ -8,7 +8,7 @@ body {
     background-color: #222c3c;
     min-width: 200px;
     max-width: 200px;
-    min-height: calc(100vh - 54px);
+    min-height: calc(100vh - 56px);
     transition: all 0.3s;
 }
 .sidebar ul li a{

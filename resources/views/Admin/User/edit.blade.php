@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row justify-content-end">
             <div class="btn-group">
-                <a href="{{ route('admin.users.index') }}" class="btn btn-success">Listar Usuários</a>
+                <a href="{{ route('admin.users.index') }}" class="btn btn-success">Listar Administradores</a>
             </div>
         </div>
     </div>
@@ -20,26 +20,6 @@
                 <label>Nome</label>
 
                 <input type="text" value="{{ $user->name }}" maxlength="255" placeholder="Digite Aqui O Nome Do Usuário" name="name" class="form-control @error('name') is-invalid @enderror">
-
-                @error('name')
-                <div class="invalid-feedback">
-                    {{$message}}
-                </div>
-                @enderror
-            </div>
-
-            <div class="form-group col-md-5 col-sm-12 mb-3 p-0">
-                <label>Permissão</label>
-
-                <select name="role" id="" class="form-control">
-                    <option selected value="{{ $user->roles->first()->id }}">{{ $user->roles->first()->nome }}</option>
-
-                    @foreach($roles as $role)
-                    @if($role->id !== $user->roles->first()->id)
-                    <option value="{{ $role->id }}">{{ $role->nome }}</option>
-                    @endif
-                    @endforeach
-                </select>
 
                 @error('name')
                 <div class="invalid-feedback">

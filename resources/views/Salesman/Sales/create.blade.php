@@ -30,21 +30,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Fidelidade</label>
-
-                    <select name="fidelidade" class="form-control" id="">
-                        <option value="true">Sim</option>
-                        <option value="true">Não</option>
-                    </select>
-                    
-                </div>
-     
-                <div class="form-group">
                     <label>Plano</label>
 
-                    <input type="text" value="{{ old('plan') }}" placeholder="Digite Aqui o plano escolhido pelo Cliente" name="plan" class="form-control @error('plan') is-invalid @enderror">
+                    <select name="planreference_id" id="" class="form-control">
+                        @foreach($plans as $plan)
+                        <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                        @endforeach
+                    </select>
 
-                    @error('plan')
+                    @error('planreference_id')
                     <div class="invalid-feedback">
                         {{$message}}
                     </div>

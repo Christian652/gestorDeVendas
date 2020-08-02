@@ -29,26 +29,45 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Fidelidade</label>
+                    <label>Status</label>
 
-                    <select name="fidelidade" class="form-control" id="">
-                        @if($sale->fidelidade)
-                        <option value="true" checked>Sim</option>
-                        <option value="true">Não</option>
-                        @else
-                        <option value="true" checked>Não</option>
-                        <option value="true">Sim</option>
+                    <select name="status" id="status_field" class="form-control">
+                        <option selected @if($sale->salestatus->name == "Cancelado") id="canceled_field" @endif value="{{ $sale->salestatus->id }}">{{ $sale->salestatus->name }}</option>
+
+                        @foreach($salestatus as $status)
+                        @if($status->id !== $sale->salestatus->id)
+                        <option value="{{ $status->id }}" @if($status->name == "Cancelado") id="canceled_field" @endif>{{ $status->name }}</option>
                         @endif
+                        @endforeach
                     </select>
-                    
+
+                    @error('planreference_id')
+                    <div class="invalid-feedback">
+                        {{$message}}
+                    </div>
+                    @enderror
+                </div>
+
+                <div class="form-group d-none" id="cancelation_reason">
+                    <label>Motivo Da Desistencia</label>
+
+                    <textarea name="cancelation_reason" id="" cols="10" class="form-control" rows="3"></textarea>
                 </div>
      
                 <div class="form-group">
                     <label>Plano</label>
 
-                    <input type="text" value="{{ $sale->plan }}" placeholder="Digite Aqui o plano escolhido pelo Cliente" name="plan" class="form-control @error('plan') is-invalid @enderror">
+                    <select name="planreference_id" id="" class="form-control">
+                        <option selected value="{{ $sale->planreference->id }}">{{ $sale->planreference->name }}</option>
 
-                    @error('plan')
+                        @foreach($plans as $plan)
+                        @if($plan->id !== $sale->planreference->id)
+                        <option value="{{ $plan->id }}">{{ $plan->name }}</option>
+                        @endif
+                        @endforeach
+                    </select>
+
+                    @error('planreference_id')
                     <div class="invalid-feedback">
                         {{$message}}
                     </div>
@@ -214,4 +233,18 @@
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<script>
+let status_field = document.getElementById('status_field');
+let cancelation_reason = document.getElementById('cancelation_reason');
+
+status_field.addEventListener('input', (event) => {
+    if (status_field.value == 1) {
+        if (cancelation_reason.classList[1] == 'd-none') {
+            cancelation_reason.classList.remove('d-none')
+        }
+    } else if (cancelation_reason.classList[1] !== 'd-none') {
+        cancelation_reason.classList.add('d-none')
+    }
+})
+</script>
 @endsection

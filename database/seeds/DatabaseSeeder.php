@@ -1,5 +1,6 @@
 <?php
 
+use App\SaleStatus;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +15,7 @@ class DatabaseSeeder extends Seeder
         
         $this->call(RolesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(SaleStatusTableSeeder::class);
 
         // $this->call(ClientsTableSeeder::class);
     }

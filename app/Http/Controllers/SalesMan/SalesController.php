@@ -4,7 +4,9 @@ namespace App\Http\Controllers\SalesMan;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaleRequest;
+use App\PlanReference;
 use App\Sale;
+use App\SaleStatus;
 use Illuminate\Http\Request;
 
 class SalesController extends Controller
@@ -16,9 +18,17 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
-        $sales = Sale::where('salesman_id', $id)->orderBy('id', 'desc')->paginate(6);
-        return view("Salesman.Sales.index", compact("sales"));
+        $sales = auth()->user()->salesman->sales()->orderBy('id', 'DESC')->paginate(10);
+        $countsales = $sales->count();
+        $countsalesmessage = "";
+       
+        if ($countsales > 1) {
+            $countsalesmessage = explode(' ', auth()->user()->name)[0]." No Momento Foram Registradas " . $countsales . " Vendas Por Você!";
+        } else {
+            $countsalesmessage = "No Momento Foi Registrada 1 Venda Por Você!";
+        }
+
+        return view("Salesman.Sales.index", compact("sales", "countsalesmessage"));
     }
 
     /**
@@ -28,7 +38,8 @@ class SalesController extends Controller
      */
     public function create()
     {
-        return view('Salesman.Sales.create');
+        $plans = PlanReference::all();
+        return view('Salesman.Sales.create', compact('plans'));
     }
 
     /**
@@ -39,11 +50,7 @@ class SalesController extends Controller
      */
     public function store(SaleRequest $request)
     {
-        if ($request->fidelidade == 'true') {
-            $fidelidade = true;
-        } else {
-            $fidelidade = false;
-        }
+        $startstatus = SaleStatus::where('name', 'Inviabilidade')->first()->id;
 
         Sale::create([
             'name' => $request->name,
@@ -57,11 +64,11 @@ class SalesController extends Controller
             'address' => $request->address,
             'cep' => $request->cep,
             'referencepoint' => $request->referencepoint,
-            'salesman_id' => auth()->user()->id,
-            'fidelidade' => $fidelidade,
+            'salesman_id' => auth()->user()->salesman->id,
             'endday' => $request->endday,
             'installationdate' => $request->installationdate,
-            'plan' => $request->plan
+            'planreference_id' => $request->planreference_id,
+            'salestatus_id' => $startstatus
         ]);
 
         flash('Venda Registrada Com Sucesso!')->success();
@@ -81,7 +88,9 @@ class SalesController extends Controller
      */
     public function edit(Sale $sale)
     {
-        return view('Salesman.Sales.edit', compact('sale'));
+        $salestatus = SaleStatus::all(['name', 'id']);
+        $plans = PlanReference::all(['name', 'id']);
+        return view('Salesman.Sales.edit', compact('sale', 'plans', 'salestatus'));
     }
 
     /**
@@ -93,11 +102,9 @@ class SalesController extends Controller
      */
     public function update(SaleRequest $request, Sale $sale)
     {
-        if ($request->fidelidade == 'true') {
-            $fidelidade = true;
-        } else {
-            $fidelidade = false;
-        }
+        $cancelationReason = null;
+        
+        if ($request->cancelation_reason) $cancelationReason = $request->cancelation_reason;
 
         $sale->update([
             'name' => $request->name,
@@ -111,14 +118,14 @@ class SalesController extends Controller
             'address' => $request->address,
             'cep' => $request->cep,
             'referencepoint' => $request->referencepoint,
-            'salesman_id' => auth()->user()->id,
-            'fidelidade' => $fidelidade,
             'endday' => $request->endday,
             'installationdate' => $request->installationdate,
-            'plan' => $request->plan
+            'planreference_id' => $request->planreference_id,
+            'salestatus_id' => $request->status,
+            'cancelation_reason' => $cancelationReason
         ]);
 
-        flash('Venda Registrada Com Sucesso!')->success();
+        flash('Venda Editada e Salva Com Sucesso!')->success();
         return redirect()->route('salesman.sales.index');
     }
 }

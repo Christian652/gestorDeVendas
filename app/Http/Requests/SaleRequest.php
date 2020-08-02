@@ -37,8 +37,7 @@ class SaleRequest extends FormRequest
             'referencepoint' => "required|string|max:200",
             'endday' => "required|string|max:2",
             'installationdate' => "required|string|max:100",
-            'plan' => "required|string|max:100",
-            'fidelidade' => "required"
+            'planreference_id' => "required"
         ];
     }
     
@@ -47,7 +46,8 @@ class SaleRequest extends FormRequest
         return [
             'required' => 'Preencha Esse Campo!',
             'string' => 'Esse Campo Só Aceita Texto!',
-            'max' => 'Esse Campo Aceita No Maximo :max Caracteres!'
+            'max' => 'Esse Campo Aceita No Maximo :max Caracteres!',
+            'min' => 'Esse Campo Precisa Exatamente de :min Caracteres!'
         ];
     }
 }
